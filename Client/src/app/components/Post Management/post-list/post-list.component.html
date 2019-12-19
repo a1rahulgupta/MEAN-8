@@ -1,0 +1,40 @@
+<div class="w3-container" *ngIf="allPostList">
+	<div class="w3-panel w3-round-small w3-teal">
+		<h3>Post List <button routerLink="/add" class="w3-button w3-green custom-button"><i class="w3-medium  fa fa-plus"></i> Add New Post</button></h3>
+	</div>
+	<div class="w3-panel w3-green" *ngIf="(allPostList | filter:filterData).length === 0">
+		<h3>Oh no</h3>
+		<p>No Post found <span *ngIf="filterData"> with search "{{filterData}}"</span> </p>
+	</div>
+	<div class="w3-panel w3-light-grey w3-padding-16 w3-card-2" *ngIf="(allPostList | filter:filterData | filter:filterData).length != 0">
+		<table class="w3-table w3-striped w3-bordered">
+			<tr>
+				<th><i class="w3-medium custom-icon"></i> S.No.</th>
+				<th><i class="w3-medium custom-icon"></i> Name</th>
+				<th><i class="w3-medium custom-icon"></i> Description</th>
+				<th><i class="w3-medium custom-icon"></i> Category</th>
+				<th><i class="w3-medium custom-icon"></i> Status</th>
+				<th><i class="w3-medium custom-icon"></i> Action</th>
+		
+				
+			</tr>
+			<tr *ngFor="let post of allPostList | filter:filterData; index as i;">
+				<td>{{i +1}}</td>
+				<td class="pointer" [routerLink]="['detail', post._id]">{{post.postName}} </td>
+				<td class="pointer" [routerLink]="['detail', post._id]">{{post.postDesc}}</td>
+				<td class="pointer" [routerLink]="['detail', post._id]">{{post.postCategory}}</td>
+				<td class="pointer" [routerLink]="['detail', post._id]">{{post.postStatus}}</td>
+				<td><a [routerLink]="['update', post._id]"><i class="w3-medium custom-icon fa fa-pencil"></i></a>
+				<a (click)="deletePost(post._id);"><i class="w3-medium custom-icon fa fa-trash"></i></a>
+				<a [routerLink]="['detail', post._id]"><i class="w3-medium custom-icon fa fa-eye"></i></a></td>
+			</tr>
+        </table>
+        <hr>
+        <button [disabled]="pagination?.page === 1" (click)="prev()" title="Previous"
+        [class]="pagination?.page === 1?'btn btn-primary float-left':'btn btn-primary float-left'">Previous
+      </button>
+      <button [disabled]="pagination?.page === totalCount" (click)="next()" title="Next"
+      [class]="pagination?.page === totalCount?'btn btn-primary float-right':'btn btn-primary float-right'">Next
+      </button>
+	</div>
+</div>
